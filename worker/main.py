@@ -27,9 +27,8 @@ async def main():
     print("Stream waiting for new messages")
 
     while True:
-        response = await consumer.consume_stream(stream_channel="message_channel", count=1, block=0)
 
-        if response:
+        if response := await consumer.consume_stream(stream_channel="message_channel", count=1, block=0):
             for stream, messages in response:
                 # Get message from stream, and extract token, message data and message id
                 for message in messages:
