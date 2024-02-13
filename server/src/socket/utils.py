@@ -14,9 +14,8 @@ async def get_token(
         await websocket.close(code=status.WS_1008_POLICY_VIOLATION)
 
     redis_client = await redis.create_connection()
-    isexists = await redis_client.exists(token)
 
-    if isexists == 1:
+    if (isexists := await redis_client.exists(token)) == 1:
         return token
     else:
         await websocket.close(code=status.WS_1008_POLICY_VIOLATION, reason="Session not authenticated or expired token")

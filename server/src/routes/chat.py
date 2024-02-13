@@ -58,9 +58,8 @@ async def token_generator(name: str, request: Request):
 async def refresh_token(request: Request, token: str):
     json_client = redis.create_rejson_connection()
     cache = Cache(json_client)
-    data = await cache.get_chat_history(token)
 
-    if data == None:
+    if (data := await cache.get_chat_history(token)) == None:
         raise HTTPException(
             status_code=400, detail="Session expired or does not exist")
     else:
